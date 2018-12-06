@@ -1,5 +1,7 @@
 ﻿
 var ticker = $.connection.zenonVariableValues;
+var breakers = [];
+var substations = [];
 
 var map = new mapboxgl.Map({
     container: 'map',
@@ -16,24 +18,9 @@ var map = new mapboxgl.Map({
     // bearing: -17.6,
 });
 
-
-//change style
-var layerList = document.getElementById('menu');
-var inputs = layerList.getElementsByTagName('input');
-
-function switchLayer(layer) {
-    var layerId = layer.target.id;
-    map.setStyle('json/' + layerId + '.json');
-}
-
-for (var i = 0; i < inputs.length; i++) {
-    inputs[i].onclick = switchLayer;
-}
-
 map.addControl(new mapboxgl.NavigationControl());
 
-map.on('load', function () {
-
+function loadImages() {
     map.loadImage('img/t100.png', function (error, image) {
         if (error) throw error;
         map.addImage('triangle', image);
@@ -58,16 +45,47 @@ map.on('load', function () {
         if (error) throw error;
         map.addImage('claimr', image);
     });
+}
 
+//change style
+var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+
+function switchLayer(layer) {
+    loadImages();  
+    var layerId = layer.target.id;
+    map.setStyle('json/' + layerId + '.json');
+}
+
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
+
+map.on('load', function () {
+    loadImages();  
 })
 
-var breakers = [];
-var substations = [];
+map.on('style.load', function () {
+    map.setPaintProperty("mv_line", 'line-color', [
+        "case",
+        ["match", ['get', "name"], breakers, true, false], "#ff0000",
+        '#00FF00'
+    ]);
+    map.setPaintProperty("lv_line", 'line-color', [
+        "case",
+        ["match", ['get', "sub"], substations, true, false], "#ff6600",
+        '#ffff00'
+    ]);
+    map.setPaintProperty("lv_service_line", 'line-color', [
+        "case",
+        ["match", ['get', "sub"], substations, true, false], "#ff6600",
+        '#ffff00'
+    ]);
+})
+
 function init() {
     alert("starting"); 
-
     //ticker.server.getInitialLayer().done(function (info) {
-    //    //alert(JSON.stringify(info));
     //    map.addSource("vehicles", {
     //        "type": "geojson",
     //        "data": JSON.parse(info)
@@ -93,11 +111,8 @@ function init() {
 
     //        }
     //    });
-    //    //alert("ola k ase again"); 
     //});
-
     ticker.server.getInitialOpenedBreakers().done(function (info) {
-        //alert(JSON.stringify(info));
         breakers = ["bazinga"];
         for (var i = 0; i < info.length; i++) {
             var obj = info[i];
@@ -116,7 +131,6 @@ function init() {
             var obj = info[i];
             substations.push(obj.Name);
         }
-
         map.setPaintProperty("lv_line", 'line-color', [
             "case",
             ["match", ['get', "sub"], substations, true, false], "#ff6600",
@@ -150,7 +164,6 @@ ticker.client.updateLvLines = function (data) {
         var obj = data[i];
         substations.push(obj.Name);
     }
-
     map.setPaintProperty("lv_line", 'line-color', [
         "case",
         ["match", ['get', "sub"], substations, true, false], "#ff6600",

@@ -217,7 +217,6 @@
     <Content Include="scripts\menu.js" />
     <Content Include="scripts\scada.js" />
     <Content Include="scripts\search.js" />
-    <Content Include="scripts\tileJSON.js" />
     <Content Include="styles\main.css" />
     <Content Include="styles\mapbox-gl.css" />
     <Content Include="styles\menu.css" />
