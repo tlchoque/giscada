@@ -44,6 +44,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="dlmsV0">
+      <HintPath>..\..\dlmsV0.dll</HintPath>
+    </Reference>
     <Reference Include="GeoJSON, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GeoJSON.1.1.0\lib\netstandard1.6\GeoJSON.dll</HintPath>
     </Reference>
@@ -193,6 +196,10 @@
     </None>
     <Content Include="Default.aspx" />
     <None Include="Connected Services\ServiceReference1\WebServiceCliente.wsdl" />
+    <Content Include="json\osm-bright.json" />
+    <Content Include="json\dark-matter.json" />
+    <Content Include="json\satellite-osm-bright.json" />
+    <Content Include="json\giscadaTiles.json" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="img\blue.png" />
@@ -213,6 +220,7 @@
     <Content Include="scripts\tileJSON.js" />
     <Content Include="styles\main.css" />
     <Content Include="styles\mapbox-gl.css" />
+    <Content Include="styles\menu.css" />
     <Content Include="styles\popup.css" />
     <Content Include="styles\search.css" />
     <Content Include="Web.config">
@@ -256,9 +264,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="dao\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <COMReference Include="stdole">
       <Guid>{00020430-0000-0000-C000-000000000046}</Guid>

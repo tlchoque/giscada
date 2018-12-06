@@ -1,0 +1,8 @@
+﻿#menu {
+    display: inline-block;
+    position: absolute;
+    background: #fff;
+    padding: 10px;
+    font-family: 'Open Sans', sans-serif;
+    right: 300px;
+}

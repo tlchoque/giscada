@@ -10,8 +10,6 @@ body {
     /*the container must be positioned relative:*/
     /*position: relative;*/
     display: inline-block;
-
-
     position: absolute;
     top: 10px;
     left: 10px;

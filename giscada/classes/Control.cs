@@ -6,6 +6,8 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
+using dlmsV0;
+
 namespace giscada.classes
 {
     
@@ -17,5 +19,9 @@ namespace giscada.classes
         {
             _zenonVariables = ZenonVariables;
         }
+
+        //DlmsLayer T = new DlmsLayer("192.168.4.111", 22);
+
+        //T.AssociationRequest();
     }
 }
