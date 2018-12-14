@@ -24,6 +24,11 @@ namespace giscada.classes
             using (SqlCommand command = new SqlCommand(commmand, conn))
             using (SqlDataAdapter dataAdapter = new SqlDataAdapter(command))
                 dataAdapter.Fill(dt);
+            //{
+            //    command.CommandTimeout = 0;
+            //    using (SqlDataAdapter dataAdapter = new SqlDataAdapter(command))
+            //        dataAdapter.Fill(dt);
+            //}
             return dt;
         }
 
@@ -41,7 +46,7 @@ namespace giscada.classes
             double x, y;
             int ZoneNumber;
             string ZoneLetter;
-            int NorthernHemisphere; //1 for northern hemispher, 0 for southern
+            //int NorthernHemisphere; //1 for northern hemispher, 0 for southern
 
             x = UTMEasting - 500000.0; //remove 500,000 meter offset for longitude
             y = UTMNorthing;
@@ -49,11 +54,12 @@ namespace giscada.classes
             //ZoneNumber = strtoul(UTMZone, &ZoneLetter, 10);
             ZoneLetter = utmZone.Last().ToString();
             ZoneNumber = int.Parse(utmZone.Remove(utmZone.Length - 1));
-            if (ZoneLetter == "N")
-                NorthernHemisphere = 1;//point is in northern hemisphere
+            if (ZoneLetter == "N") { 
+                //NorthernHemisphere = 1;//point is in northern hemisphere
+            }
             else
             {
-                NorthernHemisphere = 0;//point is in southern hemisphere
+                //NorthernHemisphere = 0;//point is in southern hemisphere
                 y -= 10000000.0;//remove 10,000,000 meter offset used for southern hemisphere
             }
 

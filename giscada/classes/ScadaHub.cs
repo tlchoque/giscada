@@ -15,11 +15,6 @@ namespace giscada.classes
             _zenonVariables = ZenonVariables;
         }
 
-        public string GetInitialLayer()
-        {
-            return _zenonVariables.GetInitialLayer();
-        }
-
         public List<ShortBreaker> GetInitialOpenedBreakers()
         {
             return _zenonVariables.GetInitialOpenedBreakers();
@@ -38,6 +33,16 @@ namespace giscada.classes
         public bool CloseBreaker(string name)
         {
             return _zenonVariables.CloseBreaker(name);
+        }
+
+        public string GetInitialLayer()
+        {
+            return _zenonVariables.GetInitialLayer();
+        }
+
+        public string GetInitialClaimLayer()
+        {
+            return _zenonVariables.GetInitialClaimLayer();
         }
     }
 }

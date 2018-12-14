@@ -14,7 +14,6 @@ using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using Newtonsoft.Json; 
 
-
 using System.IO;
 
 using System.Data;
@@ -27,13 +26,13 @@ namespace giscada.classes
         private static zenOn.Project proj;
         private static FeederBreakers F = new FeederBreakers();
         private static VehicleTracker V = new VehicleTracker();
+        private static ClaimTracker C = new ClaimTracker();
 
         private readonly static Lazy<Scada> _instance = new Lazy<Scada>(() => new Scada(GlobalHost.ConnectionManager.GetHubContext<ScadaHub>().Clients));
         private readonly ConcurrentDictionary<int, Variable> _zvariables = new ConcurrentDictionary<int, Variable>();
 
-        private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(250);
-        
-        private readonly Random _updateOrNotRandom = new Random();
+        //variables for scada
+        private readonly TimeSpan _updateInterval = TimeSpan.FromMilliseconds(250);        
         private readonly Timer _timer;
         private readonly object _updateStatus = new object();
         private readonly object _checkStatus = new object();
@@ -44,6 +43,12 @@ namespace giscada.classes
         private readonly Timer _vehicletimer;
         private readonly object _checkStatusVehicle = new object();
         private volatile bool _updatingvehicleStatus = false;
+
+        //variables for claims 
+        private readonly TimeSpan _updateIntervalClaim = TimeSpan.FromMilliseconds(250);
+        private readonly Timer _claimtimer;
+        private readonly object _checkStatusClaim = new object();
+        private volatile bool _updatingclaimStatus = false;
 
 
         private static List<ShortBreaker> ShortBreakers = new List<ShortBreaker>();
@@ -67,51 +72,35 @@ namespace giscada.classes
 
         private Scada(IHubConnectionContext<dynamic> clients)
         {
+            try {
+                Clients = clients;
+                zenOn.Application zapp = null;
+                Type acType = Type.GetTypeFromProgID("zenOn.Application");
+                zapp = (zenOn.Application)Activator.CreateInstance(acType, true);
+                //zapp = (zenOn.Application)Marshal.GetActiveObject("zenOn.Application");
+                //zapp = (zenOn.Application)Marshal.GetActiveObject
+                proj = zapp.Projects().Item(0);
 
-            Clients = clients;
-            zenOn.Application zapp = null;
+                //initialize network
+                F.proj = proj;
+                F.Generate();
+                //F.InfoForQGIS();
 
-            Type acType = Type.GetTypeFromProgID("zenOn.Application");
-            zapp = (zenOn.Application)Activator.CreateInstance(acType, true);
+                //here we initialize the vehicles
+                //V.InitializeVehicles();
 
-            //zapp = (zenOn.Application)Marshal.GetActiveObject("zenOn.Application");
-            //zapp = (zenOn.Application)Marshal.GetActiveObject
-            proj = zapp.Projects().Item(0);
+                //initialize claims
+                C.InitializeClaims();
 
-            //initialize network
-            F.proj = proj;
-            F.Generate();
-            //F.InfoForQGIS();
 
-            //here we initialize the vehicles
-            //V.InitializeVehicles();
-
-            _timer = new Timer(CheckVariables, null, _updateInterval, _updateInterval);
-            //_vehicletimer = new Timer(CheckVehicles, null, _updateIntervalVehicle, _updateIntervalVehicle);
-
-            //try
-            //{
-            //    Clients = clients;
-            //    zenOn.Application zapp = null;
-            //    zapp = (zenOn.Application)Marshal.GetActiveObject("zenOn.Application");
-            //    //zapp = (zenOn.Application)Marshal.GetActiveObject
-            //    proj = zapp.Projects().Item(0);
-
-            //    //initialize network
-            //    F.proj = proj;
-            //    F.Generate();
-
-            //    //here we initialize the vehicles
-            //    V.InitializeVehicles();
-
-            //    _timer = new Timer(CheckVariables, null, _updateInterval, _updateInterval);
-            //    _vehicletimer = new Timer(CheckVehicles, null, _updateIntervalVehicle, _updateIntervalVehicle);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message + ex.InnerException?.Message);
-            //    return;
-            //}
+                _timer = new Timer(CheckVariables, null, _updateInterval, _updateInterval);
+                //_vehicletimer = new Timer(CheckVehicles, null, _updateIntervalVehicle, _updateIntervalVehicle);
+                _claimtimer = new Timer(CheckClaims, null, _updateIntervalClaim, _updateIntervalClaim);
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message + ex.InnerException?.Message);
+                return;
+            }
         }
 
         private void UpdateValues(object state)
@@ -177,18 +166,6 @@ namespace giscada.classes
             }
         }
 
-        private void CheckVehicles(object state) {
-            lock (_checkStatusVehicle) {
-                if (!_updatingvehicleStatus) {
-                    _updatingvehicleStatus = true;
-                    if (V.NewPositions()) {
-                        BroadcastVehicles();
-                    }
-                    _updatingvehicleStatus = false;
-                }
-            }
-        }
-
         private void BroadcastColorLines(List<ShortBreaker> breakers)
         {
             Clients.All.updateColorLines(breakers);
@@ -197,6 +174,67 @@ namespace giscada.classes
         private void BroadcastLvLines(List<ShortSub> shortSubs)
         {
             Clients.All.updateLvLines(shortSubs);
+        }
+
+        public List<ShortBreaker> GetInitialOpenedBreakers()
+        {
+            List<ShortSub> subs = new List<ShortSub>();
+            List<ShortBreaker> breakers = F.GetInitialTouchedBreakers(ref subs);
+            ShortBreakers = breakers;
+            return ShortBreakers;
+        }
+
+        public List<ShortSub> GetInitialOpenedSubstations()
+        {
+            List<ShortSub> subs = new List<ShortSub>();
+            List<ShortBreaker> breakers = F.GetInitialTouchedBreakers(ref subs);
+            return subs;
+        }
+        
+        public bool OpenBreaker(string name)
+        {
+            IVariable v = proj.Variables().Item(name);
+            if (v.IsOnline())
+            {
+                v.set_Value(0, 0);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool CloseBreaker(string name)
+        {
+            IVariable v = proj.Variables().Item(name);
+            if (v.IsOnline())
+            {
+                v.set_Value(0, 1);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // vehicle functions
+
+        private void CheckVehicles(object state)
+        {
+            lock (_checkStatusVehicle)
+            {
+                if (!_updatingvehicleStatus)
+                {
+                    _updatingvehicleStatus = true;
+                    if (V.NewPositions())
+                    {
+                        BroadcastVehicles();
+                    }
+                    _updatingvehicleStatus = false;
+                }
+            }
         }
 
         private void BroadcastVehicles()
@@ -222,48 +260,30 @@ namespace giscada.classes
             return V.InitializeLayer();
         }
 
-        public List<ShortBreaker> GetInitialOpenedBreakers() {
-            List<ShortSub> subs = new List<ShortSub>();
-            List<ShortBreaker> breakers = F.GetInitialTouchedBreakers( ref subs);
-            ShortBreakers = breakers;
-            return ShortBreakers;
-        }
-
-        public List<ShortSub> GetInitialOpenedSubstations()
+        // claim functions
+        private void CheckClaims(object state)
         {
-            List<ShortSub> subs = new List<ShortSub>();
-            List<ShortBreaker> breakers = F.GetInitialTouchedBreakers(ref subs);
-            return subs;
-        }
-
-        //here we need to implement the initialization for new clients
-
-        // here we implement control breaker
-
-        public bool OpenBreaker(string name) {
-            IVariable v = proj.Variables().Item(name);
-            if (v.IsOnline())
+            lock (_checkStatusClaim)
             {
-                v.set_Value(0, 0);
-                return true;
-            }
-            else {
-                return false;
-            }
+                if (!_updatingclaimStatus)
+                {
+                    _updatingclaimStatus = true;
+                    if (C.CheckUpdates())
+                    {
+                        BroadcastClaims();
+                    }
+                    _updatingclaimStatus = false;
+                }
+            }  
         }
 
-        public bool CloseBreaker(string name)
+        private void BroadcastClaims() {
+            Clients.All.updateClaims(C.GetCurrentValues());
+        }
+
+        public string GetInitialClaimLayer()
         {
-            IVariable v = proj.Variables().Item(name);
-            if (v.IsOnline())
-            {
-                v.set_Value(0, 1);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return C.GetCurrentValues();
         }
     }
 }

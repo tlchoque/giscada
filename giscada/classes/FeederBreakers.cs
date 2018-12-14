@@ -238,7 +238,7 @@ namespace giscada.classes
             FeatureCollection aux = new FeatureCollection();
             FeatureCollection aux_text = new FeatureCollection();
 
-            string feeder_ex = "('O-145','O-242','O-243')";
+            //string feeder_ex = "('O-145','O-242','O-243')";
             DataTable btlines = ExecuteSelectQuery("select codigo,circuito,alm,sed,ckto,utm from els_2018.linea where estado = 'Existente'and tipo = 'BT' and uso != 'Servicio' and sed !=''");
             //DataTable btlines = ExecuteSelectQuery("select codigo,circuito,alm,sed,ckto,utm from els_2018.linea where estado = 'Existente'and tipo = 'BT' and sed !='' and uso != 'Servicio' and alm in "+ feeder_ex);
             for (int i = 0; i < btlines.Rows.Count; ++i)

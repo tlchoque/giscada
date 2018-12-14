@@ -47,6 +47,33 @@ function loadImages() {
     });
 }
 
+function loadClaimLayer(data) {
+    map.addSource("claims", {
+        "type": "geojson",
+        "data": JSON.parse(data)
+    });
+    map.addLayer({
+        "id": "claims",
+        "type": "symbol",
+        "source": "claims",
+        "layout": {
+            "text-field": "{sup}",
+            "icon-image": "claim",
+            "icon-size": {
+                "base": 1.75,
+                "stops": [[14, 0.03], [20, 0.1]]
+            },
+            "icon-allow-overlap": true,
+            "text-allow-overlap": true,
+        },
+        "paint": {
+            "text-color": "#00FF00",
+            "text-halo-color": "black",
+            "text-halo-width": 1,
+        }
+    });
+}
+
 //change style
 var layerList = document.getElementById('menu');
 var inputs = layerList.getElementsByTagName('input');
@@ -81,6 +108,10 @@ map.on('style.load', function () {
         ["match", ['get', "sub"], substations, true, false], "#ff6600",
         '#ffff00'
     ]);
+
+    ticker.server.getInitialClaimLayer().done(function (info) {
+        loadClaimLayer(info);
+    });
 })
 
 function init() {
@@ -112,6 +143,11 @@ function init() {
     //        }
     //    });
     //});
+
+    ticker.server.getInitialClaimLayer().done(function (info) {
+        loadClaimLayer(info);
+    });
+    
     ticker.server.getInitialOpenedBreakers().done(function (info) {
         breakers = ["bazinga"];
         for (var i = 0; i < info.length; i++) {
@@ -178,6 +214,10 @@ ticker.client.updateLvLines = function (data) {
 
 ticker.client.updateVehicles = function (data) {
     map.getSource('vehicles').setData(JSON.parse(data));
+}
+
+ticker.client.updateClaims = function (data) {
+    map.getSource('claims').setData(JSON.parse(data));
 }
 
 $.connection.hub.start().done(init);

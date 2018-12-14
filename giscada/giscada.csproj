@@ -15,7 +15,7 @@
     <RootNamespace>giscada</RootNamespace>
     <AssemblyName>giscada</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -228,6 +228,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\Breaker.cs" />
+    <Compile Include="classes\Claim.cs" />
+    <Compile Include="classes\ClaimTracker.cs" />
     <Compile Include="classes\Control.cs" />
     <Compile Include="classes\DataAccess.cs" />
     <Compile Include="classes\FeederBreakers.cs" />
@@ -305,7 +307,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51384</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/giscada</IISUrl>
+          <IISUrl>http://localhost:51387/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
