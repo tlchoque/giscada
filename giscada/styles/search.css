@@ -1,25 +1,27 @@
 ﻿* {
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
 }
 
 body {
-    font: 16px Arial;
+    /*font: 16px Arial;*/
 }
 
 .autocomplete {
     /*the container must be positioned relative:*/
     /*position: relative;*/
-    display: inline-block;
+    /*display: inline-block;
     position: absolute;
     top: 10px;
     left: 10px;
     z-index: 1;
+    */
     width: 180px;
 }
 
     .autocomplete input[type=text] {
         font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        width: 100%;
+        /*width: 100%;*/
+        width: 180px;
         border: 0;
         background-color: #fff;
         height: 40px;
@@ -49,7 +51,7 @@ input {
     }
 
 .autocomplete-items {
-    position: absolute;
+    /*position: absolute;*/
     border: 1px solid #d4d4d4;
     border-bottom: none;
     border-top: none;
@@ -61,6 +63,9 @@ input {
 }
 
     .autocomplete-items div {
+        display: block;
+        clear: both;
+
         padding: 10px;
         cursor: pointer;
         background-color: #fff;

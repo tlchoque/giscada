@@ -20,7 +20,6 @@ function flyToPosition(target) {
     //        return t;
     //    }
     //});
-
     map.flyTo({ center: target, zoom: 20 });
 }
 
@@ -36,7 +35,7 @@ function autocomplete(inp, arr) {
         if (!val) { return false; }
         currentFocus = -1;
         /*create a DIV element that will contain the items (values):*/
-        a = document.createElement("DIV");
+        a = document.createElement("div");
         a.setAttribute("id", this.id + "autocomplete-list");
         a.setAttribute("class", "autocomplete-items");
         /*append the DIV element as a child of the autocomplete container:*/
@@ -62,7 +61,7 @@ function autocomplete(inp, arr) {
         $.each(results, function (i, item) {
             //alert(item.Name);
             if (item.Name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                b = document.createElement("DIV");
+                b = document.createElement("div");
                 b.style.fontSize = "small";
                 /*make the matching letters bold:*/
                 b.innerHTML = item.Category + "<strong> " + item.Name.substr(0, val.length) + "</strong>";

@@ -5,7 +5,6 @@ var substations = [];
 
 var map = new mapboxgl.Map({
     container: 'map',
-    //style: 'json/dark-matter.json',
     style: 'json/dark-matter.json',
     center: [
         -70.69376,
@@ -19,6 +18,8 @@ var map = new mapboxgl.Map({
 });
 
 map.addControl(new mapboxgl.NavigationControl());
+applyInitialUIState();
+applyMargins();
 
 function loadImages() {
     map.loadImage('img/t100.png', function (error, image) {
@@ -57,7 +58,7 @@ function loadClaimLayer(data) {
         "type": "symbol",
         "source": "claims",
         "layout": {
-            "text-field": "{sup}",
+            //"text-field": "{sup}",
             "icon-image": "claim",
             "icon-size": {
                 "base": 1.75,
@@ -74,45 +75,46 @@ function loadClaimLayer(data) {
     });
 }
 
-//change style
-var layerList = document.getElementById('menu');
-var inputs = layerList.getElementsByTagName('input');
+//change style, disable to try the menu
 
-function switchLayer(layer) {
-    loadImages();  
-    var layerId = layer.target.id;
-    map.setStyle('json/' + layerId + '.json');
-}
+//var layerList = document.getElementById('map-menu');
+//var inputs = layerList.getElementsByTagName('input');
 
-for (var i = 0; i < inputs.length; i++) {
-    inputs[i].onclick = switchLayer;
-}
+//function switchLayer(layer) {   
+//    loadImages();  
+//    var layerId = layer.target.id;
+//    map.setStyle('json/' + layerId + '.json');
+//}
+
+//for (var i = 0; i < inputs.length; i++) {
+//    inputs[i].onclick = switchLayer;
+//}
 
 map.on('load', function () {
     loadImages();  
 })
 
-map.on('style.load', function () {
-    map.setPaintProperty("mv_line", 'line-color', [
-        "case",
-        ["match", ['get', "name"], breakers, true, false], "#ff0000",
-        '#00FF00'
-    ]);
-    map.setPaintProperty("lv_line", 'line-color', [
-        "case",
-        ["match", ['get', "sub"], substations, true, false], "#ff6600",
-        '#ffff00'
-    ]);
-    map.setPaintProperty("lv_service_line", 'line-color', [
-        "case",
-        ["match", ['get', "sub"], substations, true, false], "#ff6600",
-        '#ffff00'
-    ]);
+//map.on('style.load', function () {
+//    map.setPaintProperty("mv_line", 'line-color', [
+//        "case",
+//        ["match", ['get', "name"], breakers, true, false], "#ff0000",
+//        '#00FF00'
+//    ]);
+//    map.setPaintProperty("lv_line", 'line-color', [
+//        "case",
+//        ["match", ['get', "sub"], substations, true, false], "#ff6600",
+//        '#ffff00'
+//    ]);
+//    map.setPaintProperty("lv_service_line", 'line-color', [
+//        "case",
+//        ["match", ['get', "sub"], substations, true, false], "#ff6600",
+//        '#ffff00'
+//    ]);
 
-    ticker.server.getInitialClaimLayer().done(function (info) {
-        loadClaimLayer(info);
-    });
-})
+//    ticker.server.getInitialClaimLayer().done(function (info) {
+//        loadClaimLayer(info);
+//    });
+//})
 
 function init() {
     alert("starting"); 

@@ -15,7 +15,7 @@
     <RootNamespace>giscada</RootNamespace>
     <AssemblyName>giscada</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -196,10 +196,16 @@
     </None>
     <Content Include="Default.aspx" />
     <None Include="Connected Services\ServiceReference1\WebServiceCliente.wsdl" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="json\osm-bright.json" />
     <Content Include="json\dark-matter.json" />
     <Content Include="json\satellite-osm-bright.json" />
     <Content Include="json\giscadaTiles.json" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="img\blue.png" />
@@ -207,6 +213,7 @@
     <Content Include="img\red.png" />
     <Content Include="img\t100.png" />
     <Content Include="img\van.png" />
+    <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\control.js" />
     <Content Include="scripts\jquery-1.6.4.js" />
     <Content Include="scripts\jquery-1.6.4.min.js" />
@@ -214,9 +221,12 @@
     <Content Include="scripts\jquery.signalR-2.3.0.js" />
     <Content Include="scripts\jquery.signalR-2.3.0.min.js" />
     <Content Include="scripts\mapbox-gl.js" />
+    <Content Include="scripts\breaker-menu.js" />
     <Content Include="scripts\menu.js" />
     <Content Include="scripts\scada.js" />
     <Content Include="scripts\search.js" />
+    <Content Include="styles\bootstrap.min.css" />
+    <Content Include="styles\font-awesome.min.css" />
     <Content Include="styles\main.css" />
     <Content Include="styles\mapbox-gl.css" />
     <Content Include="styles\menu.css" />
@@ -307,7 +317,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51384</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51387/</IISUrl>
+          <IISUrl>http://localhost/giscada</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

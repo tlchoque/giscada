@@ -1,26 +1,53 @@
-﻿
-map.on('contextmenu', 'breaker', function (e) {
-
-    var popUps = document.getElementsByClassName('mapboxgl-popup');
-    // Check if there is already a popup on the map and if so, remove it
-    if (popUps[0]) popUps[0].remove();
-
-
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    //var description = "ola k ase";
-    var description = e.features[0].properties.short;
-    var variable = e.features[0].properties.name;
-
-    // Ensure that if the map is zoomed out such that multiple
-    // copies of the feature are visible, the popup appears
-    // over the copy being pointed to.
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+﻿function applyMargins() {
+    var leftToggler = $(".mini-submenu-left");
+    var rightToggler = $(".mini-submenu-right");
+    if (rightToggler.is(":visible")) {
+        $("#map .mapboxgl-ctrl-group")
+            .css("margin-right", 10)
+            .css("margin-top", 60)
+    } else {
+        $("#map .mapboxgl-ctrl-group")
+            .css("margin-right", $(".sidebar-right").width() + 5)
+            .css("margin-top", 10)
     }
+}
+function isConstrained() {
+    return $("div.mid").width() == $(window).width();
+}
+function applyInitialUIState() {
+    if (isConstrained()) {
+        $(".sidebar-left .sidebar-body").fadeOut('slide');
+        $(".sidebar-right .sidebar-body").fadeOut('slide');
+        $('.mini-submenu-left').fadeIn();
+        $('.mini-submenu-right').fadeIn();
+    }
+}
 
-    new mapboxgl.Popup()
-        .setLngLat(coordinates)
-        //.setHTML('<h3>' + description + '</h3> <h4>Abrir</h4>' + '<h4>Cerrar</h4>')
-        .setHTML('<h3>' + description + '</h3> <ul><li><a onclick="openBreaker(\'' + variable + '\');" >Abrir</a></li>' + '<li><a onclick="closeBreaker(\'' + variable +'\');" >Cerrar</a></li></ul>')
-        .addTo(map);
+//here start related functions
+$('.sidebar-left .slide-submenu').on('click', function () {
+    var thisEl = $(this);
+    thisEl.closest('.sidebar-body').fadeOut('slide', function () {
+        $('.mini-submenu-left').fadeIn();
+        applyMargins();
+    });
 });
+$('.mini-submenu-left').on('click', function () {
+    var thisEl = $(this);
+    $('.sidebar-left .sidebar-body').toggle('slide');
+    thisEl.hide();
+    applyMargins();
+});
+$('.sidebar-right .slide-submenu').on('click', function () {
+    var thisEl = $(this);
+    thisEl.closest('.sidebar-body').fadeOut('slide', function () {
+        $('.mini-submenu-right').fadeIn();
+        applyMargins();
+    });
+});
+$('.mini-submenu-right').on('click', function () {
+    var thisEl = $(this);
+    $('.sidebar-right .sidebar-body').toggle('slide');
+    thisEl.hide();
+    applyMargins();
+});
+$(window).on("resize", applyMargins);
