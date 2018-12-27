@@ -77,44 +77,44 @@ function loadClaimLayer(data) {
 
 //change style, disable to try the menu
 
-//var layerList = document.getElementById('map-menu');
-//var inputs = layerList.getElementsByTagName('input');
+var layerList = document.getElementById('map-style');
+var inputs = layerList.getElementsByTagName('a');
 
-//function switchLayer(layer) {   
-//    loadImages();  
-//    var layerId = layer.target.id;
-//    map.setStyle('json/' + layerId + '.json');
-//}
+function switchLayer(layer) {   
+    loadImages();  
+    var layerId = layer.target.id;
+    map.setStyle('json/' + layerId + '.json');
+}
 
-//for (var i = 0; i < inputs.length; i++) {
-//    inputs[i].onclick = switchLayer;
-//}
+for (var i = 0; i < inputs.length; i++) {
+    inputs[i].onclick = switchLayer;
+}
 
 map.on('load', function () {
     loadImages();  
 })
 
-//map.on('style.load', function () {
-//    map.setPaintProperty("mv_line", 'line-color', [
-//        "case",
-//        ["match", ['get', "name"], breakers, true, false], "#ff0000",
-//        '#00FF00'
-//    ]);
-//    map.setPaintProperty("lv_line", 'line-color', [
-//        "case",
-//        ["match", ['get', "sub"], substations, true, false], "#ff6600",
-//        '#ffff00'
-//    ]);
-//    map.setPaintProperty("lv_service_line", 'line-color', [
-//        "case",
-//        ["match", ['get', "sub"], substations, true, false], "#ff6600",
-//        '#ffff00'
-//    ]);
+map.on('style.load', function () {
+    map.setPaintProperty("mv_line", 'line-color', [
+        "case",
+        ["match", ['get', "name"], breakers, true, false], "#ff0000",
+        '#00FF00'
+    ]);
+    map.setPaintProperty("lv_line", 'line-color', [
+        "case",
+        ["match", ['get', "sub"], substations, true, false], "#ff6600",
+        '#ffff00'
+    ]);
+    map.setPaintProperty("lv_service_line", 'line-color', [
+        "case",
+        ["match", ['get', "sub"], substations, true, false], "#ff6600",
+        '#ffff00'
+    ]);
 
-//    ticker.server.getInitialClaimLayer().done(function (info) {
-//        loadClaimLayer(info);
-//    });
-//})
+    ticker.server.getInitialClaimLayer().done(function (info) {
+        loadClaimLayer(info);
+    });
+})
 
 function init() {
     alert("starting"); 
@@ -180,7 +180,6 @@ function init() {
             '#ffff00'
         ]);
     });
-
 }
 
 ticker.client.updateColorLines = function (data) {

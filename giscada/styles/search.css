@@ -15,7 +15,9 @@ body {
     left: 10px;
     z-index: 1;
     */
+    position: relative;
     width: 180px;
+    overflow: visible;
 }
 
     .autocomplete input[type=text] {
@@ -51,7 +53,8 @@ input {
     }
 
 .autocomplete-items {
-    /*position: absolute;*/
+    /*this is important for the position of autocomplete divs*/ 
+    position: absolute;
     border: 1px solid #d4d4d4;
     border-bottom: none;
     border-top: none;

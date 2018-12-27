@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="styles/font-awesome.min.css" />
     <link rel="stylesheet" href='styles/mapbox-gl.css'  />
 
-    <link href='styles/search.css' rel='stylesheet' />
+    <link rel='stylesheet' href='styles/search.css'  />
     <link rel='stylesheet' href='styles/popup.css'  />
     <link rel='stylesheet' href='styles/menu.css'  />
 
@@ -72,14 +72,14 @@
                   <li><a href="#">One more separated link</a></li>
                 </ul>
               </li>
+              <%--<li class="dropdown">
+                   <input id="myInput" type="text" placeholder="Buscar">
+              </li>--%>
             </ul>
             <form class="navbar-form navbar-left" role="search" autocomplete="off">
               <div class="autocomplete form-group" style="width:300px;">
-                <%--<input type="text" class="form-control" placeholder="Search">--%>
-                <input id="myInput" type="text" placeholder="Etiqueta">
-              </div>
-              <%--<button type="submit" class="btn btn-default">Submit</button>--%>
-              <%--<input type="submit">--%>              
+                <input id="myInput" type="text" placeholder="Buscar">
+              </div>      
             </form>
             <ul class="nav navbar-nav navbar-right">
               <%--<li><a href="#">Link</a></li>
@@ -110,7 +110,7 @@
                 <h4 class="panel-title">
                   <a data-toggle="collapse" href="#layers">
                     <i class="fa fa-list-alt"></i>
-                    Layers
+                    Mapas
                   </a>
                   <span class="pull-right slide-submenu">
                     <i class="fa fa-chevron-left"></i>
@@ -118,14 +118,14 @@
                 </h4>
               </div>
               <div id="layers" class="panel-collapse collapse in">
-                <div class="panel-body list-group">
-                  <a href="#" class="list-group-item">
+                <div class="panel-body list-group" id="map-style">
+                  <a href="#" class="list-group-item" id="dark-matter">
                     <i class="fa fa-globe"></i> Dark
                   </a>
-                  <a href="#" class="list-group-item">
+                  <a href="#" class="list-group-item" id="osm-bright">
                     <i class="fa fa-globe"></i> Bright
                   </a>
-                  <a href="#" class="list-group-item">
+                  <a href="#" class="list-group-item" id="satellite-osm-bright">
                     <i class="fa fa-globe"></i> Satellite
                   </a>
                 </div>
@@ -136,7 +136,7 @@
                 <h4 class="panel-title">
                   <a data-toggle="collapse" href="#properties">
                     <i class="fa fa-list-alt"></i>
-                    Properties
+                    Equipos Abiertos
                   </a>
                 </h4>
               </div>
@@ -154,23 +154,42 @@
           </div>
         </div>
         <div class="col-sm-4 col-md-6 mid"></div>
-        <div class="col-sm-4 col-md-3 sidebar sidebar-right pull-right">
+        <div class="col-sm-4 col-md-3 sidebar sidebar-right pull-right" style:"height:100%">
           <div class="panel-group sidebar-body" id="accordion-right">
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4 class="panel-title">
                   <a data-toggle="collapse" href="#taskpane">
                     <i class="fa fa-tasks"></i>
-                    Task Pane
+                    Reclamos
                   </a>
                   <span class="pull-right slide-submenu">
                     <i class="fa fa-chevron-right"></i>
                   </span>
                 </h4>
               </div>
-              <div id="taskpane" class="panel-collapse collapse in">
-                <div class="panel-body">
-                  <p>
+              <div id="taskpane" class="panel-collapse collapse in" style:"height:100%">
+                <div class="panel-body" style:"height:100%">
+                  <div class="listings" id="listings" >
+                      <div  class="item">
+                          <a class="title">Primer reclamo</a>
+                          <div>Descripcion 1</div>
+                      </div>
+                      <div  class="item">
+                          <a class="title">Segundo reclamo</a>
+                          <div>Descripcion 2</div>
+                      </div>
+                      <div  class="item">
+                          <a class="title">Tercer reclamo</a>
+                          <div>Descripcion 3</div>
+                      </div>
+                      <div  class="item">
+                          <a class="title">Cuarto reclamo</a>
+                          <div>Descripcion 4</div>
+                      </div>
+                  </div>
+
+                  <%--<p>
                   Lorem ipsum dolor sit amet, vel an wisi propriae. Sea ut graece gloriatur. Per ei quando dicant vivendum. An insolens appellantur eos, doctus convenire vis et, at solet aeterno intellegebat qui.
                   </p>
                   <p>
@@ -181,7 +200,8 @@
                   </p>
                   <p>
                   Pro cu scaevola antiopam, cum id inermis salutatus. No duo liber gloriatur. Duo id vitae decore, justo consequat vix et. Sea id tale quot vitae.
-                  </p>
+                  </p>--%>
+
                 </div>
               </div>
             </div>
