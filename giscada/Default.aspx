@@ -26,24 +26,9 @@
     <script src='<%: ResolveClientUrl("~/signalr/hubs") %>'></script> 
 </head>
 <body>
-    <%--<form autocomplete="off"  >
-        <div class="autocomplete" style="width:300px;">
-        <input id="myInput" type="text" name="myCountry" placeholder="Etiqueta" >
-        </div>
-        <input type="submit">
-    </form>--%>
-    
-    <%--<div id='map-menu'>
-        <input id='dark-matter' type='radio' name='rtoggle' value='dark-matter' checked='checked'>
-        <label for='dark-matter'>Dark</label>
-        <input id='osm-bright' type='radio' name='rtoggle' value='osm-bright'>
-        <label for='osm-bright'>Bright</label>
-        <input id='satellite-osm-bright' type='radio' name='rtoggle' value='satellite-osm-bright'>
-        <label for='satellite-osm-bright'>Satellite</label>
-    </div>--%>
-    
+        
     <%--menu for map viewer--%>
-    <div class="container">
+      <div class="container">
       <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
         <div class="container-fluid">
           <!-- Brand and toggle get grouped for better mobile display -->
@@ -97,12 +82,12 @@
             </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
           </nav>
-        </div>
-      </nav>
+      </div>
+      
       <div class="navbar-offset"></div>
       <div id="map">
       </div>
-      <div class="row main-row">
+      <div class="row main-row" style="height:100%">
         <div class="col-sm-4 col-md-3 sidebar sidebar-left pull-left">
           <div class="panel-group sidebar-body" id="accordion-left">
             <div class="panel panel-default">
@@ -154,7 +139,7 @@
           </div>
         </div>
         <div class="col-sm-4 col-md-6 mid"></div>
-        <div class="col-sm-4 col-md-3 sidebar sidebar-right pull-right" style:"height:100%">
+        <div class="col-sm-4 col-md-3 sidebar sidebar-right pull-right" >
           <div class="panel-group sidebar-body" id="accordion-right">
             <div class="panel panel-default">
               <div class="panel-heading">
@@ -168,10 +153,10 @@
                   </span>
                 </h4>
               </div>
-              <div id="taskpane" class="panel-collapse collapse in" style:"height:100%">
-                <div class="panel-body" style:"height:100%">
+              <div id="taskpane" class="panel-collapse collapse in" >
+                <div class="panel-body" >
                   <div class="listings" id="listings" >
-                      <div  class="item">
+                      <%--<div  class="item">
                           <a class="title">Primer reclamo</a>
                           <div>Descripcion 1</div>
                       </div>
@@ -186,22 +171,8 @@
                       <div  class="item">
                           <a class="title">Cuarto reclamo</a>
                           <div>Descripcion 4</div>
-                      </div>
+                      </div>--%>
                   </div>
-
-                  <%--<p>
-                  Lorem ipsum dolor sit amet, vel an wisi propriae. Sea ut graece gloriatur. Per ei quando dicant vivendum. An insolens appellantur eos, doctus convenire vis et, at solet aeterno intellegebat qui.
-                  </p>
-                  <p>
-                  Elitr minimum inciderint qui no. Ne mea quaerendum scriptorem consequuntur. Mel ea nobis discere dignissim, aperiam patrioque ei ius. Stet laboramus eos te, his recteque mnesarchum an, quo id adipisci salutatus. Quas solet inimicus eu per. Sonet conclusionemque id vis.
-                  </p>
-                  <p>
-                  Eam vivendo repudiandae in, ei pri sint probatus. Pri et lorem praesent periculis, dicam singulis ut sed. Omnis patrioque sit ei, vis illud impetus molestiae id. Ex viderer assentior mel, inani liber officiis pro et. Qui ut perfecto repudiandae, per no hinc tation labores.
-                  </p>
-                  <p>
-                  Pro cu scaevola antiopam, cum id inermis salutatus. No duo liber gloriatur. Duo id vitae decore, justo consequat vix et. Sea id tale quot vitae.
-                  </p>--%>
-
                 </div>
               </div>
             </div>
@@ -216,6 +187,7 @@
       </div>
     </div>
 
+    <script type="text/javascript" src="scripts/claim.js"></script>
     <script type="text/javascript" src="scripts/menu.js"></script>
     <script type="text/javascript" src="scripts/scada.js"></script>
     <script type="text/javascript" src="scripts/search.js"></script>

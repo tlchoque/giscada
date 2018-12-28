@@ -214,6 +214,7 @@
     <Content Include="img\t100.png" />
     <Content Include="img\van.png" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\claim.js" />
     <Content Include="scripts\control.js" />
     <Content Include="scripts\jquery-1.6.4.js" />
     <Content Include="scripts\jquery-1.6.4.min.js" />

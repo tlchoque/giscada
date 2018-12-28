@@ -148,6 +148,7 @@ function init() {
 
     ticker.server.getInitialClaimLayer().done(function (info) {
         loadClaimLayer(info);
+        buildClaimList(JSON.parse(info));
     });
     
     ticker.server.getInitialOpenedBreakers().done(function (info) {
@@ -219,6 +220,7 @@ ticker.client.updateVehicles = function (data) {
 
 ticker.client.updateClaims = function (data) {
     map.getSource('claims').setData(JSON.parse(data));
+    buildClaimList(JSON.parse(data));
 }
 
 $.connection.hub.start().done(init);

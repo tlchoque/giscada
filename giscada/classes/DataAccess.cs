@@ -11,13 +11,13 @@ using GeoJSON.Net.Geometry;
 
 using Newtonsoft.Json;
 
-
 namespace giscada.classes
 {
     public class DataAccess
     {
         private readonly string CadCnx = "Data Source=TESTSERVER\\SQLEXPRESS;Initial Catalog=els_2018;User ID=sa;Password=Els1234!!";
-                
+        //private readonly string CadCnx = "Data Source=191.168.4.219;Initial Catalog=dbSRSScomercial;User ID=UsuarioConsultaReclamos;Password=WC4wu2+LIf";
+
         public DataTable ExecuteSelectQuery(string commmand) {
             DataTable dt = new DataTable();
             using (SqlConnection conn = new SqlConnection(CadCnx))
