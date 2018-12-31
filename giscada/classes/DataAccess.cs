@@ -17,6 +17,7 @@ namespace giscada.classes
     {
         private readonly string CadCnx = "Data Source=TESTSERVER\\SQLEXPRESS;Initial Catalog=els_2018;User ID=sa;Password=Els1234!!";
         //private readonly string CadCnx = "Data Source=191.168.4.219;Initial Catalog=dbSRSScomercial;User ID=UsuarioConsultaReclamos;Password=WC4wu2+LIf";
+        private readonly string CommercialCnx = "Data Source=191.168.4.219;Initial Catalog=dbSRSScomercial;User ID=UsuarioConsultaReclamos;Password=WC4wu2+LIf";
 
         public DataTable ExecuteSelectQuery(string commmand) {
             DataTable dt = new DataTable();
@@ -24,11 +25,16 @@ namespace giscada.classes
             using (SqlCommand command = new SqlCommand(commmand, conn))
             using (SqlDataAdapter dataAdapter = new SqlDataAdapter(command))
                 dataAdapter.Fill(dt);
-            //{
-            //    command.CommandTimeout = 0;
-            //    using (SqlDataAdapter dataAdapter = new SqlDataAdapter(command))
-            //        dataAdapter.Fill(dt);
-            //}
+            return dt;
+        }
+
+        public DataTable ExecuteCommercialQuery(string commmand)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection conn = new SqlConnection(CommercialCnx))
+            using (SqlCommand command = new SqlCommand(commmand, conn))
+            using (SqlDataAdapter dataAdapter = new SqlDataAdapter(command))
+                dataAdapter.Fill(dt);
             return dt;
         }
 

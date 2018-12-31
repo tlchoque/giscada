@@ -1,4 +1,23 @@
-﻿function buildClaimList(data) {
+﻿function flyToClaim(currentFeature) {
+    map.flyTo({
+        center: currentFeature.geometry.coordinates,
+        zoom: 15
+    });
+}
+
+function createPopUp(currentFeature) {
+    var popUps = document.getElementsByClassName('mapboxgl-popup');
+    if (popUps[0]) popUps[0].remove();
+
+    var popup = new mapboxgl.Popup({ closeOnClick: false })
+        .setLngLat(currentFeature.geometry.coordinates)
+        .setHTML('<h3>' + currentFeature.properties.sup +'</h3>' +
+            '<h4>' + currentFeature.properties.des + '</h4>')
+        .addTo(map);
+}
+
+
+function buildClaimList(data) {
     document.getElementById('listings').innerHTML = "";
 
     for (i = 0; i < data.features.length; i++) {
@@ -12,22 +31,22 @@
         link.href = '#';
         link.className = 'title';
         link.dataPosition = i;
-        link.innerHTML = prop.sup;//this is supply
+        link.innerHTML = prop.cod + ' - ' + prop.sup;//this is supply
         var details = listing.appendChild(document.createElement('div'));
         details.innerHTML = prop.des;
         if (prop.dat) {
             details.innerHTML += ' &middot; ' + prop.dat;
         }
 
-        //link.addEventListener('click', function (e) {
-        //    var clickedListing = data.features[this.dataPosition];
-        //    flyToStore(clickedListing);
-        //    createPopUp(clickedListing);
-        //    var activeItem = document.getElementsByClassName('active');
-        //    if (activeItem[0]) {
-        //        activeItem[0].classList.remove('active');
-        //    }
-        //    this.parentNode.classList.add('active');
-        //});
+        link.addEventListener('click', function (e) {
+            var clickedListing = data.features[this.dataPosition];
+            flyToClaim(clickedListing);
+            createPopUp(clickedListing);
+            var activeItem = document.getElementsByClassName('active');
+            if (activeItem[0]) {
+                activeItem[0].classList.remove('active');
+            }
+            this.parentNode.classList.add('active');
+        });
     }
 }

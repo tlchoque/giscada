@@ -4,7 +4,7 @@
 }
 
 .mapboxgl-popup-content {
-    font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+    font: 400 12px/15px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
     padding: 0;
     width: 150px;
 }
@@ -24,6 +24,14 @@
     margin-top: -15px;
 
     font-size:13px;
+}
+
+.mapboxgl-popup-content h4 {
+    margin: 0;
+    display: block;
+    padding: 10px;
+    font-weight: 400;
+    font: 400 11px/15px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
 }
 
 .mapboxgl-popup-content li a {

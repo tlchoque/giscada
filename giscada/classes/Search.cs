@@ -68,20 +68,20 @@ namespace giscada.classes
         public List<TopLocation> GetTopResults(string substring)
         {
             List<TopLocation> TopResults = new List<TopLocation>();
-            DataTable  results= ExecuteSelectQuery("select top 10 * from SearchLabel where label like '" + substring + "%' order by label asc");
+            DataTable  results= ExecuteSelectQuery("select top 10 * from instalacion where etiqueta like '" + substring + "%' order by etiqueta asc");
             for (int i = 0; i < results.Rows.Count; ++i)
             {
-                string cat = results.Rows[i]["category"].ToString();
-                string name = results.Rows[i]["label"].ToString();
+                string cat = results.Rows[i]["categoria"].ToString();
+                string name = results.Rows[i]["etiqueta"].ToString();
                 Position p;
                 if ( cat == "B" )
                 {
-                    p = new Position(Convert.ToDouble( results.Rows[i]["latitude"].ToString()), Convert.ToDouble(results.Rows[i]["longitude"].ToString()) );
+                    p = new Position(Convert.ToDouble( results.Rows[i]["latitud"].ToString()), Convert.ToDouble(results.Rows[i]["longitud"].ToString()) );
                 }
                 else {
-                    p = ToLatLon(Convert.ToDouble(results.Rows[i]["longitude"]), Convert.ToDouble(results.Rows[i]["latitude"]), "19S");
+                    p = ToLatLon(Convert.ToDouble(results.Rows[i]["longitud"]), Convert.ToDouble(results.Rows[i]["latitud"]), "19S");
                 }               
-                string feeder = results.Rows[i]["feeder"].ToString();
+                string feeder = results.Rows[i]["alimentador"].ToString();
                 TopResults.Add(new TopLocation(cat,name, p,feeder));
             }
             return TopResults;

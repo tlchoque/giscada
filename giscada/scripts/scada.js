@@ -116,6 +116,29 @@ map.on('style.load', function () {
     });
 })
 
+
+map.on('click', function (e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['claims'] });
+    if (features.length) {
+        var clickedPoint = features[0];
+        flyToClaim(clickedPoint);
+        createPopUp(clickedPoint);
+        var activeItem = document.getElementsByClassName('active');
+        if (activeItem[0]) {
+            activeItem[0].classList.remove('active');
+        }
+        var selectedFeature = clickedPoint.properties.des;
+
+        //for (var i = 0; i < stores.features.length; i++) {
+        //    if (stores.features[i].properties.des === selectedFeature) {
+        //        selectedFeatureIndex = i;
+        //    }
+        //}
+        //var listing = document.getElementById('listing-' + selectedFeatureIndex);
+        //listing.classList.add('active');
+    }
+});
+
 function init() {
     alert("starting"); 
     //ticker.server.getInitialLayer().done(function (info) {

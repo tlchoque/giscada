@@ -15,29 +15,42 @@ namespace giscada.classes
 {
     public class ClaimTracker : DataAccess
     {
+        class DescendingComparer<T> : IComparer<T> where T : IComparable<T>
+        {
+            public int Compare(T x, T y)
+            {
+                return y.CompareTo(x);
+            }
+        }
+
         public List<Claim> claimList;
-        public Dictionary<string, Claim> claimHash;
+        public SortedDictionary<string, Claim> claimHash;
+        //public OrderedDictionary claimHash;
 
         public ClaimTracker()
         {
             claimList = new List<Claim>();
-            claimHash = new Dictionary<string, Claim>();
+            claimHash = new SortedDictionary<string, Claim>(new DescendingComparer<string>());
+            //claimHash = new OrderedDictionary();
         }
+
+        
 
         public void InitializeClaims()
         {
-            DataTable claims = ExecuteSelectQuery("select * from reclamo");
+            DataTable claims = ExecuteCommercialQuery("exec RptSer_ListaReclamosPendientes '20181230','20190102'");
             for (int i = 0; i < claims.Rows.Count; ++i)
             {
-                string code = claims.Rows[i]["codigo"].ToString();
-                Position location = new Position(claims.Rows[i]["latitud"].ToString(), claims.Rows[i]["longitud"].ToString());
-                DateTime date = Convert.ToDateTime(claims.Rows[i]["fecha"].ToString());
-                string quality = claims.Rows[i]["clase"].ToString();
-                string type = claims.Rows[i]["tipo"].ToString();
-                string description = claims.Rows[i]["descripcion"].ToString();
-                string supply = claims.Rows[i]["suministro"].ToString();
-                string consumption = claims.Rows[i]["consumo"].ToString();
-                string client = claims.Rows[i]["cliente"].ToString();
+                if ( string.IsNullOrWhiteSpace( claims.Rows[i]["Latitud"].ToString()) ) continue;
+                string code = claims.Rows[i]["CodigoReclamo"].ToString();        
+                Position location = new Position(claims.Rows[i]["Latitud"].ToString(), claims.Rows[i]["Longitud"].ToString());
+                DateTime date = Convert.ToDateTime(claims.Rows[i]["FechaRegistroReclamo"].ToString());
+                string quality = claims.Rows[i]["NombreClaseReclamo"].ToString();
+                string type = claims.Rows[i]["NombreTipoReclamo"].ToString();
+                string description = claims.Rows[i]["DescripcionReclamo"].ToString();
+                string supply = claims.Rows[i]["CodigoSuministro"].ToString();
+                string consumption = claims.Rows[i]["Ultimo_L_CEA"].ToString();
+                string client = claims.Rows[i]["NombreSuministro"].ToString();
                 Claim c = new Claim(code,location, date, quality,type, description, supply, consumption, client);
                 claimList.Add(c);
                 claimHash[code] = c;
@@ -50,28 +63,30 @@ namespace giscada.classes
             bool change = false;
             // check if the code is still in the hash
             HashSet<string> codeHash = new HashSet<string>();
-            DataTable claims = ExecuteSelectQuery("select * from reclamo");
+            DataTable claims = ExecuteCommercialQuery("exec RptSer_ListaReclamosPendientes '20181230','20190102'");
             for (int i = 0; i < claims.Rows.Count; ++i) {
-                string code = claims.Rows[i]["codigo"].ToString();
+                if (string.IsNullOrWhiteSpace(claims.Rows[i]["Latitud"].ToString())) continue;
+                string code = claims.Rows[i]["CodigoReclamo"].ToString();
                 Claim c = new Claim();
                 if (!claimHash.TryGetValue(code, out c)) {
                     change = true;
                     // here we need to create a new claim for the dictionary
-                    Position location = new Position(claims.Rows[i]["latitud"].ToString(), claims.Rows[i]["longitud"].ToString());
-                    DateTime date = Convert.ToDateTime(claims.Rows[i]["fecha"].ToString());
-                    string quality = claims.Rows[i]["clase"].ToString();
-                    string type = claims.Rows[i]["tipo"].ToString();
-                    string description = claims.Rows[i]["descripcion"].ToString();
-                    string supply = claims.Rows[i]["suministro"].ToString();
-                    string consumption = claims.Rows[i]["consumo"].ToString();
-                    string client = claims.Rows[i]["cliente"].ToString();
+                    Position location = new Position(claims.Rows[i]["Latitud"].ToString(), claims.Rows[i]["Longitud"].ToString());
+                    DateTime date = Convert.ToDateTime(claims.Rows[i]["FechaRegistroReclamo"].ToString());
+                    string quality = claims.Rows[i]["NombreClaseReclamo"].ToString();
+                    string type = claims.Rows[i]["NombreTipoReclamo"].ToString();
+                    string description = claims.Rows[i]["DescripcionReclamo"].ToString();
+                    string supply = claims.Rows[i]["CodigoSuministro"].ToString();
+                    string consumption = claims.Rows[i]["Ultimo_L_CEA"].ToString();
+                    string client = claims.Rows[i]["NombreSuministro"].ToString();
                     Claim caux = new Claim(code, location, date, quality, type, description, supply, consumption, client);
                     claimList.Add(caux);
                     claimHash[code] = caux;                    
                 }
-                else if (c.quality == "cerrado") {
-                    change = true;
-                }
+                //else if (c.quality == "cerrado") {
+                //    change = true;
+                //}
+
                 //check the pair that should not exist
                 codeHash.Add(code);
             }
