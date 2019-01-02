@@ -15,8 +15,8 @@ namespace giscada.classes
 {
     public class DataAccess
     {
-        private readonly string CadCnx = "Data Source=TESTSERVER\\SQLEXPRESS;Initial Catalog=els_2018;User ID=sa;Password=Els1234!!";
-        //private readonly string CadCnx = "Data Source=191.168.4.219;Initial Catalog=dbSRSScomercial;User ID=UsuarioConsultaReclamos;Password=WC4wu2+LIf";
+        private readonly string CadCnx = "Data Source=192.168.1.198;Initial Catalog=els_2018;User ID=sa;Password=Els1234!!";
+        //private readonly string CadCnx = "Data Source=192.168.1.198;Initial Catalog=els_2018;User ID=sa;Password=Els1234!!";
         private readonly string CommercialCnx = "Data Source=191.168.4.219;Initial Catalog=dbSRSScomercial;User ID=UsuarioConsultaReclamos;Password=WC4wu2+LIf";
 
         public DataTable ExecuteSelectQuery(string commmand) {

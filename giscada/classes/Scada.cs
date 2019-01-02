@@ -45,7 +45,7 @@ namespace giscada.classes
         private volatile bool _updatingvehicleStatus = false;
 
         //variables for claims 
-        private readonly TimeSpan _updateIntervalClaim = TimeSpan.FromMilliseconds(250);
+        private readonly TimeSpan _updateIntervalClaim = TimeSpan.FromMilliseconds(300);
         private readonly Timer _claimtimer;
         private readonly object _checkStatusClaim = new object();
         private volatile bool _updatingclaimStatus = false;

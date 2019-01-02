@@ -34,11 +34,12 @@ namespace giscada.classes
             //claimHash = new OrderedDictionary();
         }
 
-        
-
         public void InitializeClaims()
         {
-            DataTable claims = ExecuteCommercialQuery("exec RptSer_ListaReclamosPendientes '20181230','20190102'");
+            DateTime past = DateTime.Now.AddDays(-2);
+            string date1 = past.Year.ToString() + past.Month.ToString("00") + past.Day.ToString("00");
+            string date2 = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00");            
+            DataTable claims = ExecuteCommercialQuery("exec RptSer_ListaReclamosPendientes '"+date1+"','"+date2+"'");
             for (int i = 0; i < claims.Rows.Count; ++i)
             {
                 if ( string.IsNullOrWhiteSpace( claims.Rows[i]["Latitud"].ToString()) ) continue;
@@ -63,7 +64,12 @@ namespace giscada.classes
             bool change = false;
             // check if the code is still in the hash
             HashSet<string> codeHash = new HashSet<string>();
-            DataTable claims = ExecuteCommercialQuery("exec RptSer_ListaReclamosPendientes '20181230','20190102'");
+
+            DateTime past = DateTime.Now.AddDays(-2);
+            string date1 = past.Year.ToString() + past.Month.ToString("00") + past.Day.ToString("00");
+            string date2 = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("00") + DateTime.Now.Day.ToString("00");
+            DataTable claims = ExecuteCommercialQuery("exec RptSer_ListaReclamosPendientes '" + date1 + "','" + date2 + "'");
+
             for (int i = 0; i < claims.Rows.Count; ++i) {
                 if (string.IsNullOrWhiteSpace(claims.Rows[i]["Latitud"].ToString())) continue;
                 string code = claims.Rows[i]["CodigoReclamo"].ToString();

@@ -22,12 +22,12 @@
   "profile": "mercator",
   "scale": 1,
   "tiles": [
-    "http://TESTSERVER:8080/tileserver-php-master/tileserver.php?/index.json?/giscada3/{z}/{x}/{y}.pbf"
+    "http://192.168.1.198:8080/tileserver-php-master/tileserver.php?/index.json?/giscada3/{z}/{x}/{y}.pbf"
   ],
   "tilejson": "2.0.0",
   "scheme": "xyz",
   "grids": [
-    "http://TESTSERVER:8080/tileserver-php-master/tileserver.php?/index.json?/giscada3/{z}/{x}/{y}.grid.json"
+    "http://192.168.1.198:8080/tileserver-php-master/tileserver.php?/index.json?/giscada3/{z}/{x}/{y}.grid.json"
   ],
   "vector_layers": [
     {
@@ -2301,5 +2301,5 @@
     ]
   },
   "zoom": 10,
-  "tileUrl": "http://TESTSERVER:8080/tileserver-php-master/tileserver.php?/index.json?/giscada3/20/318377/573957.pbf"
+  "tileUrl": "http://192.168.1.198:8080/tileserver-php-master/tileserver.php?/index.json?/giscada3/20/318377/573957.pbf"
 }
