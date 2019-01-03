@@ -85,17 +85,18 @@ function loadVehicleLayer(data) {
         "type": "symbol",
         "source": "vehicles",
         "layout": {
+            "text-field": "{nam}",
             "icon-image": "car",
             "icon-size": {
                 "base": 1.75,
-                "stops": [[13, 0.08], [20, 0.4]]
+                "stops": [[13, 0.16], [20, 0.55]]
             },
             "icon-allow-overlap": true,
             "text-allow-overlap": true,
         },
         "paint": {
-            "text-color": "#00FF00",
-            "text-halo-color": "black",
+            "text-color": "#0000FF",
+            "text-halo-color": "white",
             "text-halo-width": 1,
         }
     });

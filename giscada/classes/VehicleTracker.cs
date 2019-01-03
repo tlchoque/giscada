@@ -22,9 +22,21 @@ namespace giscada.classes
         public List<Vehicle> vehicleList;
         public Dictionary<string, Vehicle> vehicleHash;
 
+        public Dictionary<string, string> vehicleNames;
+
+        public void FillNames(Dictionary<string, string> vn) {
+            vn["V0C-824"] = "Unidad 53";
+            vn["V0C-886"] = "Unidad 54";
+            vn["V0C-848"] = "Unidad 55";
+            vn["V0C-857"] = "Locumba";
+            vn["V0C-885"] = "Tarata";
+            vn["V0C-905"] = "Candarave";
+        }
+
         public VehicleTracker() {
             vehicleList = new List<Vehicle>();
             vehicleHash = new Dictionary<string, Vehicle>();
+            FillNames(vehicleNames);
         }
 
         //public void InitializeVehicles()
@@ -204,7 +216,8 @@ namespace giscada.classes
                 {
                     { "avl", v.Avl },
                     { "tim", v.Timestamp },
-                    { "spe", v.Speed }
+                    { "spe", v.Speed },
+                    { "nam", vehicleNames[v.Avl] }
                 };
                 var feature = new GeoJSON.Net.Feature.Feature(geom, props);
                 model.Features.Add(feature);
