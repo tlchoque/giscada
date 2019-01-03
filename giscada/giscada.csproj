@@ -197,6 +197,7 @@
     <Content Include="Default.aspx" />
     <None Include="Connected Services\ServiceReference1\WebServiceCliente.wsdl" />
     <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="img\van.png" />
     <Content Include="json\osm-bright.json" />
     <Content Include="json\dark-matter.json" />
     <Content Include="json\satellite-osm-bright.json" />
@@ -212,7 +213,6 @@
     <Content Include="img\breaker.png" />
     <Content Include="img\red.png" />
     <Content Include="img\t100.png" />
-    <Content Include="img\van.png" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\claim.js" />
     <Content Include="scripts\control.js" />
