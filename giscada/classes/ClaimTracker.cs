@@ -89,12 +89,13 @@ namespace giscada.classes
                     claimList.Add(caux);
                     claimHash[code] = caux;                    
                 }
+                codeHash.Add(code);
                 //else if (c.quality == "cerrado") {
                 //    change = true;
                 //}
 
                 //check the pair that should not exist
-                codeHash.Add(code);
+
             }
             foreach (string code in claimHash.Keys.ToList()) {
                 if (!codeHash.Contains(code)) {

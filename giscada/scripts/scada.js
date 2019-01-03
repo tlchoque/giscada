@@ -62,7 +62,33 @@ function loadClaimLayer(data) {
             "icon-image": "claim",
             "icon-size": {
                 "base": 1.75,
-                "stops": [[14, 0.03], [20, 0.1]]
+                "stops": [[13, 0.03], [20, 0.1]]
+            },
+            "icon-allow-overlap": true,
+            "text-allow-overlap": true,
+        },
+        "paint": {
+            "text-color": "#00FF00",
+            "text-halo-color": "black",
+            "text-halo-width": 1,
+        }
+    });
+}
+
+function loadVehicleLayer(data) {
+    map.addSource("vehicles", {
+        "type": "geojson",
+        "data": JSON.parse(data)
+    });
+    map.addLayer({
+        "id": "vehicles",
+        "type": "symbol",
+        "source": "vehicles",
+        "layout": {
+            "icon-image": "car",
+            "icon-size": {
+                "base": 1.75,
+                "stops": [[13, 0.08], [20, 0.4]]
             },
             "icon-allow-overlap": true,
             "text-allow-overlap": true,
@@ -114,6 +140,10 @@ map.on('style.load', function () {
     ticker.server.getInitialClaimLayer().done(function (info) {
         loadClaimLayer(info);
     });
+
+    ticker.server.getInitialVehicleLayer().done(function (info) {
+        loadVehicleLayer(info);
+    });
 })
 
 
@@ -141,37 +171,14 @@ map.on('click', function (e) {
 
 function init() {
     alert("starting"); 
-    //ticker.server.getInitialLayer().done(function (info) {
-    //    map.addSource("vehicles", {
-    //        "type": "geojson",
-    //        "data": JSON.parse(info)
-    //    });
-    //    map.addLayer({
-    //        "id": "vehicles",
-    //        "type": "symbol",
-    //        "source": "vehicles",
-    //        "layout": {
-    //            "text-field": "{plate}",
-    //            "icon-image": "car",
-    //            "icon-size": {
-    //                "base": 1.75,
-    //                "stops": [[14, 0.08], [20, 0.4]]
-    //            },
-    //            "icon-allow-overlap": true,
-    //            "text-allow-overlap": true,
-    //        },
-    //        "paint": {
-    //            "text-color": "#00FF00",
-    //            "text-halo-color": "black",
-    //            "text-halo-width": 1,
-
-    //        }
-    //    });
-    //});
 
     ticker.server.getInitialClaimLayer().done(function (info) {
         loadClaimLayer(info);
         buildClaimList(JSON.parse(info));
+    });
+
+    ticker.server.getInitialVehicleLayer().done(function (info) {
+        loadVehicleLayer(info);
     });
     
     ticker.server.getInitialOpenedBreakers().done(function (info) {
@@ -238,6 +245,8 @@ ticker.client.updateLvLines = function (data) {
 };
 
 ticker.client.updateVehicles = function (data) {
+    //alert(JSON.stringify(data));
+    //alert("nerw update");
     map.getSource('vehicles').setData(JSON.parse(data));
 }
 

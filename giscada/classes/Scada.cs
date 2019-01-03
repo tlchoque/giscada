@@ -39,7 +39,7 @@ namespace giscada.classes
         private volatile bool _updatingBreakerStatus = false;
 
         //variables for vehicles 
-        private readonly TimeSpan _updateIntervalVehicle = TimeSpan.FromMilliseconds(2000);
+        private readonly TimeSpan _updateIntervalVehicle = TimeSpan.FromMilliseconds(3000);
         private readonly Timer _vehicletimer;
         private readonly object _checkStatusVehicle = new object();
         private volatile bool _updatingvehicleStatus = false;
@@ -87,14 +87,14 @@ namespace giscada.classes
                 //F.InfoForQGIS();
 
                 //here we initialize the vehicles
-                //V.InitializeVehicles();
+                V.InitializeVehicles();
 
                 //initialize claims
                 C.InitializeClaims();
 
 
                 _timer = new Timer(CheckVariables, null, _updateInterval, _updateInterval);
-                //_vehicletimer = new Timer(CheckVehicles, null, _updateIntervalVehicle, _updateIntervalVehicle);
+                _vehicletimer = new Timer(CheckVehicles, null, _updateIntervalVehicle, _updateIntervalVehicle);
                 _claimtimer = new Timer(CheckClaims, null, _updateIntervalClaim, _updateIntervalClaim);
             }
             catch (Exception ex) {
@@ -228,7 +228,7 @@ namespace giscada.classes
                 if (!_updatingvehicleStatus)
                 {
                     _updatingvehicleStatus = true;
-                    if (V.NewPositions())
+                    if ( V.CheckVehicleUpdates() )
                     {
                         BroadcastVehicles();
                     }
@@ -239,25 +239,12 @@ namespace giscada.classes
 
         private void BroadcastVehicles()
         {
-            var model = new FeatureCollection();
-            foreach (Vehicle v in V.vehicleHash.Values) {
-                var geom = new Point(v.location);
-                var props = new Dictionary<string, object>
-                {
-                    { "plate", v.plate },
-                    { "speed", v.speed },
-                    { "date", v.date }
-                };
-                var feature = new GeoJSON.Net.Feature.Feature(geom, props);
-                model.Features.Add(feature);
-            }
-            var vehiclejson = JsonConvert.SerializeObject(model);
-            Clients.All.updateVehicles(vehiclejson);
+            Clients.All.updateVehicles(V.GetCurrentVehicleValues());
         }
 
-        public string GetInitialLayer()
+        public string GetInitialVehicleLayer()
         {
-            return V.InitializeLayer();
+            return V.GetCurrentVehicleValues();
         }
 
         // claim functions

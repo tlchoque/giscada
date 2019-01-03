@@ -35,9 +35,9 @@ namespace giscada.classes
             return _zenonVariables.CloseBreaker(name);
         }
 
-        public string GetInitialLayer()
+        public string GetInitialVehicleLayer()
         {
-            return _zenonVariables.GetInitialLayer();
+            return _zenonVariables.GetInitialVehicleLayer();
         }
 
         public string GetInitialClaimLayer()

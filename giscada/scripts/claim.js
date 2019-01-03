@@ -1,18 +1,17 @@
 ﻿function flyToClaim(currentFeature) {
     map.flyTo({
         center: currentFeature.geometry.coordinates,
-        zoom: 15
+        zoom: 20
     });
 }
 
 function createPopUp(currentFeature) {
     var popUps = document.getElementsByClassName('mapboxgl-popup');
     if (popUps[0]) popUps[0].remove();
-
     var popup = new mapboxgl.Popup({ closeOnClick: false })
         .setLngLat(currentFeature.geometry.coordinates)
         .setHTML('<h3>' + currentFeature.properties.sup +'</h3>' +
-            '<h4>' + currentFeature.properties.des + '</h4>')
+        '<h4>' + currentFeature.properties.des + ' &middot; ' + currentFeature.properties.dat  +'</h4>')
         .addTo(map);
 }
 
