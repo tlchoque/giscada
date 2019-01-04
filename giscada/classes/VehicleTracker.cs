@@ -24,18 +24,22 @@ namespace giscada.classes
 
         public Dictionary<string, string> vehicleNames;
 
-        public void FillNames(Dictionary<string, string> vn) {
+        public void FillNames(Dictionary<string, string> vn)
+        {
             vn["V0C-824"] = "Unidad 53";
             vn["V0C-886"] = "Unidad 54";
             vn["V0C-848"] = "Unidad 55";
             vn["V0C-857"] = "Locumba";
             vn["V0C-885"] = "Tarata";
             vn["V0C-905"] = "Candarave";
+            vn["V0C-838"] = "Boca del Río";
         }
 
         public VehicleTracker() {
             vehicleList = new List<Vehicle>();
             vehicleHash = new Dictionary<string, Vehicle>();
+
+            vehicleNames = new Dictionary<string, string>();
             FillNames(vehicleNames);
         }
 

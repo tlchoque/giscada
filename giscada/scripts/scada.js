@@ -5,7 +5,7 @@ var substations = [];
 
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'json/dark-matter.json',
+    style: 'json/osm-bright.json',
     center: [
         -70.69376,
         -16.806349,
@@ -46,6 +46,41 @@ function loadImages() {
         if (error) throw error;
         map.addImage('claimr', image);
     });
+
+    map.loadImage('img/claim1.png', function (error, image) {
+        if (error) throw error;
+        map.addImage('claim1', image);
+    });
+
+    map.loadImage('img/claim2.png', function (error, image) {
+        if (error) throw error;
+        map.addImage('claim2', image);
+    });
+
+    map.loadImage('img/claim3.png', function (error, image) {
+        if (error) throw error;
+        map.addImage('claim3', image);
+    });
+
+    map.loadImage('img/claim4.png', function (error, image) {
+        if (error) throw error;
+        map.addImage('claim4', image);
+    });
+
+    map.loadImage('img/claim5.png', function (error, image) {
+        if (error) throw error;
+        map.addImage('claim5', image);
+    });
+
+    //map.loadImage('img/claim6.png', function (error, image) {
+    //    if (error) throw error;
+    //    map.addImage('claim6', image);
+    //});
+
+    //map.loadImage('img/claim7.png', function (error, image) {
+    //    if (error) throw error;
+    //    map.addImage('claim7', image);
+    //});
 }
 
 function loadClaimLayer(data) {
@@ -59,10 +94,17 @@ function loadClaimLayer(data) {
         "source": "claims",
         "layout": {
             //"text-field": "{sup}",
-            "icon-image": "claim",
+            "icon-image": ["case",
+                ["==", ["get", "typ"], "EMERGENCIAS"], "claim1",
+                ["==", ["get", "typ"], "FALTA DE SERVICIO EN EL SECTOR"], "claim1",
+                ["==", ["get", "typ"], "FALTA DE SERVICIO EN EL PREDIO"], "claim3",
+                ["==", ["get", "typ"], "OTROS"], "claim4",
+                "claim5"
+            ],
+
             "icon-size": {
                 "base": 1.75,
-                "stops": [[13, 0.03], [20, 0.1]]
+                "stops": [[13, 0.23], [20, 1]]
             },
             "icon-allow-overlap": true,
             "text-allow-overlap": true,
@@ -89,10 +131,12 @@ function loadVehicleLayer(data) {
             "icon-image": "car",
             "icon-size": {
                 "base": 1.75,
-                "stops": [[13, 0.16], [20, 0.55]]
+                "stops": [[13, 0.16], [20, 0.5]]
             },
             "icon-allow-overlap": true,
             "text-allow-overlap": true,
+            "text-offset": [0, 0.9],
+            "text-font": ["Noto Sans Regular"]
         },
         "paint": {
             "text-color": "#0000FF",
@@ -146,7 +190,6 @@ map.on('style.load', function () {
         loadVehicleLayer(info);
     });
 })
-
 
 map.on('click', function (e) {
     var features = map.queryRenderedFeatures(e.point, { layers: ['claims'] });
