@@ -197,6 +197,11 @@
     <Content Include="Default.aspx" />
     <None Include="Connected Services\ServiceReference1\WebServiceCliente.wsdl" />
     <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="img\claim1.png" />
+    <Content Include="img\claim2.png" />
+    <Content Include="img\claim3.png" />
+    <Content Include="img\claim4.png" />
+    <Content Include="img\claim5.png" />
     <Content Include="img\van.png" />
     <Content Include="json\osm-bright.json" />
     <Content Include="json\dark-matter.json" />

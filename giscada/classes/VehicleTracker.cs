@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 
 using System.Data;
 using System.Xml;
+using System.Text;
 
 using System.IO;
 using System.Net;
@@ -154,7 +155,13 @@ namespace giscada.classes
                 {
                     StreamReader reader = new StreamReader(responseStream, System.Text.Encoding.GetEncoding("utf-8"));
                     String errorText = reader.ReadToEnd();
-                    // log errorText
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(errorText);
+                    File.AppendAllText("log.txt", sb.ToString());
+                                        sb.Clear();
+
+                    return "error";
                 }
                 throw;
             }
@@ -162,6 +169,7 @@ namespace giscada.classes
 
         public void InitializeVehicles() {
             string json = GET("http://else-general.gpsgoldcar.com/avl/last-position/?avl_unit_group_id=4");
+            if (json == "error") return;
             Vehicle[] vehicles = JsonConvert.DeserializeObject<Vehicle[]>(json);
             for (int i = 0; i < vehicles.Length; ++i) {
                 Vehicle v = vehicles[i];
@@ -175,6 +183,8 @@ namespace giscada.classes
             bool change = false;
             HashSet<string> codeHash = new HashSet<string>();
             string json = GET("http://else-general.gpsgoldcar.com/avl/last-position/?avl_unit_group_id=4");
+            if (json == "error") return change;
+
             Vehicle[] vehicles = JsonConvert.DeserializeObject<Vehicle[]>(json);
 
             for (int i = 0; i < vehicles.Length; ++i) {
