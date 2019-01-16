@@ -10,7 +10,7 @@ function createPopUp(currentFeature) {
     if (popUps[0]) popUps[0].remove();
     var popup = new mapboxgl.Popup({ closeOnClick: false })
         .setLngLat(currentFeature.geometry.coordinates)
-        .setHTML('<h3>' + currentFeature.properties.sup +'</h3>' +
+        .setHTML('<h3>' + currentFeature.properties.cod +'</h3>' +
         '<h4>' + currentFeature.properties.des + ' &middot; ' + currentFeature.properties.dat  +'</h4>')
         .addTo(map);
 }
